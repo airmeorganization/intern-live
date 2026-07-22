@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
 import { verifyOtp } from '../auth/authLogic';
 
 export default function OtpScreen() {
@@ -20,13 +21,27 @@ export default function OtpScreen() {
     setError('');
     setIsLoading(true);
 
-    const { error: verifyError } = await verifyOtp(email, otp);
+    const { data: sessionData, error: verifyError } = await verifyOtp(email, otp);
     setIsLoading(false);
 
     if (verifyError) {
       setError(verifyError.message);
-    } else {
-      navigate('/home', { replace: true });
+      return;
+    }
+
+    // Check if user has a profile
+    if (sessionData?.session?.user) {
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('id')
+            .eq('id', sessionData.session.user.id)
+            .maybeSingle();
+
+        if (!profile) {
+            navigate('/create-profile', { replace: true });
+        } else {
+            navigate('/home', { replace: true });
+        }
     }
   };
 
@@ -48,7 +63,7 @@ export default function OtpScreen() {
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
               placeholder="Enter 4-digit code"
-              maxLength={4}
+              maxLength={6}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-center tracking-widest text-lg"
               required
             />
