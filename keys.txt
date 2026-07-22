@@ -1,0 +1,2 @@
+Supabase URL: https://irpbpivwztolbsalauno.supabase.co
+Supabase Anon Key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlycGJwaXZ3enRvbGJzYWxhdW5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ2NTIzOTYsImV4cCI6MjEwMDIyODM5Nn0.AUTjUKscBGq-ROWhdSRk0zuCwDgNoypK0zBCbimTFd0
